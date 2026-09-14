@@ -1,10 +1,14 @@
-# DeepVoice inference
+# DeepVoice Detection
 
-The original notebook remains the baseline reference. `script.py` is the
-offline DACON inference entry point; its default behavior is the unchanged
-baseline fusion.
+[한국어 안내](README.ko.md)
 
-## Required layout
+Offline inference pipeline for DACON's DeepVoice detection competition. The
+original notebook is retained as the baseline reference; `script.py` is the
+submission entry point.
+
+## Quick Start
+
+Place the local model assets and competition inputs in this layout:
 
 ```text
 model/
@@ -16,16 +20,13 @@ data/
   sample_submission.csv
 ```
 
-## Generate the three fusion candidates once
-
-This performs expensive PANNs, HTDemucs, and DF-Arena inference once, then
-writes all file-level fusion alternatives:
+Generate the three file-level fusion candidates with one shared inference run:
 
 ```bash
 python script.py --all-fusions
 ```
 
-It creates:
+This creates the following files:
 
 ```text
 output/submission_baseline.csv
@@ -33,7 +34,7 @@ output/submission_component_max.csv
 output/submission_soft_or.csv
 ```
 
-## Generate one evaluator-compatible submission
+To generate the evaluator-compatible `output/submission.csv` for one method:
 
 ```bash
 python script.py --fusion baseline
@@ -41,17 +42,30 @@ python script.py --fusion component_max
 python script.py --fusion soft_or
 ```
 
-Each command writes `output/submission.csv`. Preserve or rename that CSV before
-running the next command. For DACON upload, package `model/`, `script.py`,
-and `requirements.txt` only.
-
-## Build three upload-ready archives
+Build the three upload-ready archives after populating `model/`:
 
 ```bash
-python tools/build_submissions.py
+python scripts/build_submissions.py
 ```
 
-This creates `dist/submit_baseline.zip`, `dist/submit_component_max.zip`, and
-`dist/submit_soft_or.zip`. Each archive pins its own default fusion while
-keeping the evaluator's top-level package layout unchanged. The shared Python
-modules are placed under `model/deepvoice/` inside the archive.
+## Project Structure
+
+```text
+.
+├── [Baseline_Inference]_*.ipynb  # Original baseline notebook
+├── script.py                     # DACON inference entry point
+├── deepvoice/                    # Reusable inference modules
+│   ├── audio.py                  # Audio loading and segmentation
+│   ├── presence.py               # PANNs component-presence scoring
+│   ├── separation.py             # HTDemucs source separation
+│   ├── detector.py               # DF-Arena fake scoring
+│   ├── fusion.py                 # Three file-level fusion methods
+│   ├── pipeline.py               # End-to-end inference flow
+│   └── metrics.py                # Local ADS/CPS metric helpers
+├── scripts/
+│   └── build_submissions.py      # Builds one DACON zip per fusion method
+├── model/                        # Local assets; excluded from Git
+└── data/                         # Competition inputs; excluded from Git
+```
+
+The available fusion methods are `baseline`, `component_max`, and `soft_or`.
