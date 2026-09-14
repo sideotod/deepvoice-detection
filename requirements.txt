@@ -1,0 +1,2 @@
+# The DACON evaluation image already provides torch, transformers, demucs,
+# panns-inference, librosa, torchaudio, NumPy, scikit-learn, and tqdm.
