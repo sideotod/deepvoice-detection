@@ -21,12 +21,17 @@ data/
   sample_submission.csv
 ```
 
-공식 baseline 압축 파일을 받았다면 `model/`만 추출하고 무결성을 확인합니다.
+이 저장소는 모델 가중치나 공식 baseline zip을 포함하지 않습니다. Windows/Linux
+학습 환경에서 공식 baseline 패키지의 `model/`을 프로젝트 루트에 배치하고 무결성을
+확인합니다.
 
 ```bash
-unzip -q open/baseline_submit.zip 'model/*' -d .
 python scripts/prepare_local_assets.py --prepare-data-dirs --check-model-hashes
 ```
+
+공식 모델의 출처·고정 revision·SHA-256은
+[`configs/baseline_model_manifest.json`](configs/baseline_model_manifest.json)에
+기록되어 있습니다.
 
 `model/`, `data/`, `open/`, 결과물은 모두 Git에서 제외됩니다. Tailscale로 받은
 학습 데이터는 우선 `data/incoming/`에 두고, 학습용 데이터를 `data/train/`, 검증용
@@ -78,6 +83,8 @@ python scripts/build_submissions.py
 ├── scripts/
 │   ├── build_submissions.py      # fusion별 DACON zip 생성
 │   └── prepare_local_assets.py   # 로컬 모델·데이터 레이아웃 준비와 검증
+├── configs/
+│   └── baseline_model_manifest.json  # 공식 모델 메타데이터·무결성 해시
 ├── model/                        # 로컬 모델 파일, Git 제외
 ├── data/                         # Tailscale 학습 데이터·대회 입력, Git 제외
 │   ├── incoming/                 # 수신 직후 원본 데이터

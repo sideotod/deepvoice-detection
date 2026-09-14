@@ -1,0 +1,21 @@
+{
+  "description": "Metadata and integrity hashes for the official baseline model bundle.",
+  "df_arena_1b": {
+    "source": "Speech-Arena-2025/DF_Arena_1B_V_1",
+    "revision": "fb6ce85de12c2c5a509d89114adaf827dd75f49f",
+    "local_directory": "model/df_arena_1b",
+    "checkpoint": "pytorch_model.bin",
+    "sha256": "780bc14fd4c15e65d58efdef728427cf03cd29cd60be528e97badf8c89087988"
+  },
+  "htdemucs": {
+    "model": "htdemucs",
+    "checkpoint": "955717e8-8726e21a.th",
+    "local_directory": "model/htdemucs",
+    "sha256": "8726e21a993978c7ba086d3872e7608d7d5bfca646ca4aca459ffda844faa8b4"
+  },
+  "panns_cnn14": {
+    "checkpoint": "Cnn14_mAP=0.431.pth",
+    "local_directory": "model/panns",
+    "sha256": "0dc499e40e9761ef5ea061ffc77697697f277f6a960894903df3ada000e34b31"
+  }
+}
